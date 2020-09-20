@@ -4,7 +4,22 @@ from rest_framework import generics
 from .models import MyUsers
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from .serializer import UserSerializer
 # Create your views here.
+
+
+class UserList(generics.ListAPIView):
+    queryset = MyUsers.objects.all()
+    serializer_class = UserSerializer
+
+
+class UserDetail(generics.RetrieveAPIView):
+    queryset = MyUsers.objects.all()
+    serializer_class = UserSerializer
+
+
+
+
 
 
 class CreateUser(generics.ListCreateAPIView):
