@@ -1,12 +1,10 @@
-from django.shortcuts import render, HttpResponse
-from django.views import View
 from rest_framework import generics
 from .models import MyUsers
-from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializer import UserSerializer, CreateUserSerializer
 from rest_framework import permissions
-# Create your views here.
+from .permissions import user_permission
+
 
 
 class UserList(generics.ListAPIView):
@@ -30,8 +28,25 @@ class CreateUser(generics.ListCreateAPIView):
     serializer_class = CreateUserSerializer
 
     def post(self, request, *args, **kwargs):
-        user = MyUsers()
-        username = request.POST['username']
-        print(username)
-        d={"data": username}
-        return Response(d)
+        try:
+
+            serializer = CreateUserSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                user = serializer.data.copy()
+                user.pop('password')
+                user_permission(user['id'])
+                return Response({'user': user})
+            else:
+                return Response(serializer.errors)
+        except Exception as e:
+            raise e
+
+
+class TestPerm(generics.ListCreateAPIView):
+
+    permission_classes = (permissions.AllowAny, )
+
+    def get(self, request, *args, **kwargs):
+        user_permission(3)
+        return Response({'OK': "OKKK"})

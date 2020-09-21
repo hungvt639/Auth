@@ -1,16 +1,18 @@
 from rest_framework import permissions
+from .models import MyUsers
+from django.contrib.auth.models import Permission
 
 
-class IsOwnerOrReadOnly(permissions.BasePermission):
-    """
-    Custom permission to only allow owners of an object to edit it.
-    """
+def user_permission(id):
 
-    def has_object_permission(self, request, view, obj):
-        # Read permissions are allowed to any request,
-        # so we'll always allow GET, HEAD or OPTIONS requests.
-        if request.method in permissions.SAFE_METHODS:
-            return True
+    user = MyUsers.objects.get(pk=id)
+    permission_list = [
+        Permission.objects.get(codename='view_myusers'),
+        Permission.objects.get(codename='change_myusers'),
 
-        # Write permissions are only allowed to the owner of the snippet.
-        return obj.owner == request.user
+        Permission.objects.get(codename='view_snippet'),
+        Permission.objects.get(codename='change_snippet'),
+        Permission.objects.get(codename='add_snippet'),
+        Permission.objects.get(codename='delete_snippet')
+    ]
+    user.user_permissions.set(permission_list)
