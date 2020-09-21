@@ -9,15 +9,21 @@ from Users.permissions import IsOwnerOrReadOnly
 
 
 class SnippetList(APIView):
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+    permission_classes = (permissions.IsAuthenticated,)
+
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
     def get(self, request, format=None):
+        permission = "App.view_snippet"
+        user = request.user
+        if user.has_perm(permission):
         # import pdb; pdb.set_trace()
-        snippets = Snippet.objects.all()
-        serializer = SnippetSerializer(snippets, many=True)
-        return Response(serializer.data)
+            snippets = Snippet.objects.all()
+            serializer = SnippetSerializer(snippets, many=True)
+            return Response(serializer.data)
+        else:
+            return Response({"Error": "You can view Snippets"})
 
     def post(self, request, format=None):
         # import pdb; pdb.set_trace()
