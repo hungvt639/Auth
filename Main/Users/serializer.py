@@ -15,7 +15,7 @@ class UserSerializer(serializers.ModelSerializer):
 class CreateUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = MyUsers
-        fields = ['id', 'username', 'password', 'email', 'first_name', 'last_name']
+        fields = ['id', 'username', 'password', 'email', 'first_name', 'last_name', 'phone', 'sex', 'address', 'birthday']
         write_only_fields = ('password', )
         read_only_fields = ('id', )
 
@@ -25,6 +25,10 @@ class CreateUserSerializer(serializers.ModelSerializer):
             email=validated_data['email'],
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name'],
+            phone=validated_data['phone'],
+            sex=validated_data['sex'],
+            address=validated_data['address'],
+            birthday=validated_data['birthday']
         )
         user.set_password(validated_data['password'])
         user.save()
