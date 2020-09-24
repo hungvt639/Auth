@@ -14,4 +14,4 @@ class MyUsers(AbstractUser):
     sex = models.IntegerField(choices=SEX_CHOICE, default=1, blank=True, null=True)
     address = models.CharField(max_length=100, blank=True, null=True)
     birthday = models.DateField(blank=True, null=True)
-    # avatar = models.FileField(blank=True, null=True, default="avt.jpg")
+    avatar = models.FileField(upload_to='image/avatar', blank=True, null=True, default="avatar.jpg")

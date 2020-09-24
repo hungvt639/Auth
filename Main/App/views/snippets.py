@@ -6,7 +6,6 @@ from rest_framework import status
 from rest_framework import permissions
 
 
-
 class SnippetList(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 

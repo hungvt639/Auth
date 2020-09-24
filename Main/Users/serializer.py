@@ -3,19 +3,22 @@ from rest_framework import serializers
 from App.models.Snippets import Snippet
 
 
-
 class UserSerializer(serializers.ModelSerializer):
-    # snippets = serializers.PrimaryKeyRelatedField(many=True, queryset=Snippet.objects.all())
-
     class Meta:
         model = MyUsers
-        fields = ['id', 'username', 'email', 'first_name', 'last_name']
+        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'phone', 'sex', 'address', 'birthday', 'avatar']
+
+
+class EditUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MyUsers
+        fields = ['email', 'first_name', 'last_name', 'phone', 'sex', 'address', 'birthday']
 
 
 class CreateUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = MyUsers
-        fields = ['id', 'username', 'password', 'email', 'first_name', 'last_name', 'phone', 'sex', 'address', 'birthday']
+        fields = ['id', 'username', 'password', 'email', 'first_name', 'last_name', 'phone', 'sex', 'address', 'birthday', 'avatar']
         write_only_fields = ('password', )
         read_only_fields = ('id', )
 
