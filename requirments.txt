@@ -4,3 +4,6 @@ pygments
 markdown
 django-filter
 djangorestframework-jwt
+django-cors-headers
+djangorestframework-oauth
+django-oauth-toolkit
