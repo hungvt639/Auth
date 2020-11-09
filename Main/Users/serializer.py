@@ -4,18 +4,28 @@ from App.models.Snippets import Snippet
 
 
 class UserSerializer(serializers.ModelSerializer):
+    birthday = serializers.DateField(format="%d-%m-%Y", input_formats=['%d-%m-%Y', 'iso-8601'], allow_null=True)
     class Meta:
         model = MyUsers
         fields = ['id', 'username', 'email', 'first_name', 'last_name', 'phone', 'sex', 'address', 'birthday', 'avatar']
 
 
+class EditAvatar(serializers.ModelSerializer):
+    class Meta:
+        model = MyUsers
+        fields = ['avatar',]
+
+
 class EditUserSerializer(serializers.ModelSerializer):
+    birthday = serializers.DateField(format="%d-%m-%Y", input_formats=['%d-%m-%Y', 'iso-8601'], allow_null=True)
     class Meta:
         model = MyUsers
         fields = ['email', 'first_name', 'last_name', 'phone', 'sex', 'address', 'birthday', 'avatar']
 
 
 class CreateUserSerializer(serializers.ModelSerializer):
+    # birthday = serializers.DateField(format="%d-%m-%Y", input_formats=['%d-%m-%Y', 'iso-8601'], allow_null=True)
+
     class Meta:
         model = MyUsers
         fields = ['id', 'username', 'password', 'email', 'first_name', 'last_name', 'avatar']
